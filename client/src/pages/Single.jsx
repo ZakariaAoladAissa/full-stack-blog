@@ -14,8 +14,11 @@ export default function Single (){
     const navigate=useNavigate()
 
   const postId=location.pathname.split("/")[2];//to get the id from the url  
-
-  const {currentUser}=useContext(AuthContext)
+  
+  let {currentUser}=useContext(AuthContext)
+    if (currentUser==null) {
+        currentUser=""
+    }
 
     useEffect(()=>{
         const fetchData=async ()=>{
@@ -53,9 +56,10 @@ export default function Single (){
                         <span>{post.username}</span>
                         <p>Posted {moment(post.date).fromNow()}</p>
                     </div>
+                    
                     {currentUser.username === post.username &&
                         <div className="edit">
-                        <Link to={`/write?edit=2`} state={post}>
+                        <Link to={`/write?edit=${postId}`} state={post}>
                             <img src={Edit} alt=""/>
                         </Link>
                         <img onClick={handleDelete} src={Delete} alt=""/>
